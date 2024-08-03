@@ -5,7 +5,7 @@ function WeatherData({ weather }) {
   return(
     <Flex wrap="wrap" gap="10px" justify="center">{
         weather.map((item,index) => (
-          <Card maxW = 'sm' margin="10px">
+          <Card maxW = 'sm' margin="10px" key={index}>
             <CardBody>
               <Flex direction="column" align="center" justify="center" mb="4">
                 <WeatherIcon weather={item.summary_forecast} />

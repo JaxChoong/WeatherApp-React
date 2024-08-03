@@ -16,7 +16,6 @@ function useInput({ setCity }) {
       <Button variant = "outline" colorScheme ="white" marginLeft="10px"onClick={(e) => {
         e.preventDefault()
         setCity(cityInput)
-        console.log(cityInput)
         }}
       >Check Weather</Button>
     </div>

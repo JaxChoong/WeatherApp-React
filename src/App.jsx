@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Input from './Input.jsx';
 import WeatherData from './WeatherData.jsx';
-import { Text } from '@chakra-ui/react';
+import { Text,Flex,Image } from '@chakra-ui/react';
 
 function App() {
   const [city, setCity] = useState("");            // State for the input city
@@ -32,7 +32,10 @@ function App() {
 
   return (
     <div>
-      <h1>Weather Forecast</h1>
+      <Flex justify="center">
+        <Image src="/weather.svg" alt="Weather" width="100px" height="100px"/>
+      </Flex>
+      <Text fontSize="3xl" margin="10px">Weather Forecast</Text>
       <Input setCity={setCity} />                  {/* Pass setCity to Input component */}
       {error && <Text fontSize ="md" margin ="5px" color ="red">{error}</Text>}                    {/* Display error message if exists */}
       {weather && !error &&                       
