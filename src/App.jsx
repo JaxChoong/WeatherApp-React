@@ -1,33 +1,30 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [weather, setWeather] = useState(null);  // SAVE STATE FOR SETTING WEATHER
+
+  useEffect(() => {                                        // USE EFFECT TO FETCH DATA                              
+    fetch('https://api.data.gov.my/weather/forecast/')     // FETCH WEATHER DATA
+      .then((response) => response.json())                 // CONVERT RESPONSE TO JSON          
+      .then((data) => { 
+        setWeather(data);                                 // SET WEATHER DATA TO STATE
+        console.log(weather);                             
+      })
+      .catch((error) => console.error(error.message));
+  }
+  , []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Weather Forecast</h1>
+      {weather ? (                                         // CHECK IF WEATHER DATA IS AVAILABLE
+        <pre>{JSON.stringify(weather, null, 2)}</pre>      // DISPLAY WEATHER DATA
+      ) : (
+        <p>Loading...</p>                                 // DISPLAY LOADING MESSAGE
+      )}
     </>
   )
 }
