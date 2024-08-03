@@ -20,7 +20,7 @@ function App() {
   }, [city]);                                     // Dependency array with city to re-run on city change
 
   return (
-    <>
+    <div>
       <h1>Weather Forecast</h1>
       <Input setCity={setCity} />                  {/* Pass setCity to Input component */}
       {weather ? (                                 // Check if weather data is available
@@ -28,7 +28,7 @@ function App() {
       ) : (
         <p>Loading...</p>                         // Display loading message
       )}
-    </>
+    </div>
   );
 }
 
