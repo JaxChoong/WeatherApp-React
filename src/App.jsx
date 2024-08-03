@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     if (city) {                                    // Fetch data only if city is not empty
-      fetch(`https://api.data.gov.my/weather/forecast?contains=${city}@location__location_name`)
+      fetch(`https://api.data.gov.my/weather/forecast?contains=${city}@location__location_name&limit=7`)
         .then((response) => response.json())
         .then((data) => {
           if (data && data.length > 0) {
