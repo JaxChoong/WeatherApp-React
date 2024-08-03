@@ -1,21 +1,32 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Input from './Input.jsx';
-import WeatherIcon from './WeatherIcon.jsx';
 import WeatherData from './WeatherData.jsx';
+import { Text } from '@chakra-ui/react';
+
 function App() {
   const [city, setCity] = useState("");            // State for the input city
   const [weather, setWeather] = useState(null);    // State for the weather data
+  const [error, setError] = useState(null);        // State for the error message
 
   useEffect(() => {
     if (city) {                                    // Fetch data only if city is not empty
       fetch(`https://api.data.gov.my/weather/forecast?contains=${city}@location__location_name`)
         .then((response) => response.json())
         .then((data) => {
-          setWeather(data);                        // Set weather data to state
-          console.log(data);
+          if (data && data.length > 0) {
+            setWeather(data);                    // Set weather data to state if data is found
+            setError(null);                      // Clear error if data is found
+          } else {
+            setWeather(null);                    // Clear weather data if no data is found
+            setError("City not found!");          // Set error message
+          }
         })
-        .catch((error) => console.error(error.message));
+        .catch((error) => {
+          setWeather(null);                      // Clear weather data on fetch error
+          setError("An error occurred");         // Set error message
+          console.error(error.message);
+        });
     }
   }, [city]);                                     // Dependency array with city to re-run on city change
 
@@ -23,11 +34,10 @@ function App() {
     <div>
       <h1>Weather Forecast</h1>
       <Input setCity={setCity} />                  {/* Pass setCity to Input component */}
-      {weather ? (                                 // Check if weather data is available
-        <WeatherData weather={weather} />         
-      ) : (
-        <p>Loading...</p>                         // Display loading message
-      )}
+      {error && <Text fontSize ="md" margin ="5px" color ="red">{error}</Text>}                    {/* Display error message if exists */}
+      {weather && !error &&                       
+        <WeatherData weather={weather} />
+      }
     </div>
   );
 }
